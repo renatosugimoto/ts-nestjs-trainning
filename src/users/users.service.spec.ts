@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 import { UserDto } from './dto/user.dto';
 import { describe } from 'node:test';
 import { User } from './entities/user.entity';
-import { EntityNotFoundError, Repository } from 'typeorm';
+import { EntityNotFoundError } from 'typeorm';
 import { HttpException } from '@nestjs/common';
 
 function generateRandomUserDto(): UserDto {
