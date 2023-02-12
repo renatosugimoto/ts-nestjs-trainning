@@ -44,3 +44,10 @@ jobs:
 
     - name: Build
       run: npm run build
+
+    - name: Publish test report
+      if: github.event_name == 'pull_request'
+      uses: actions/upload-artifact@v1
+      with:
+        name: jest-html-report
+        path: jest_html_reporters

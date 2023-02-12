@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { faker } from '@faker-js/faker';
 import { UserDto } from './dto/user.dto';
-import { describe } from 'node:test';
 import { User } from './entities/user.entity';
 import { EntityNotFoundError } from 'typeorm';
 import { HttpException } from '@nestjs/common';
@@ -43,7 +42,7 @@ describe('UsersService', () => {
   });
 
   describe('create', () => {
-    it('should call save the user in the repository', async () => {
+    it('should call save user in the repository', async () => {
       const userDto = generateRandomUserDto();
       await service.create(userDto);
       expect(mockRepository.save).toHaveBeenCalledWith(userDto);

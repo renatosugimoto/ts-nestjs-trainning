@@ -20,7 +20,6 @@ export class UsersService {
       return await this.userRepository.findOneByOrFail({ id });
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
-        console.log('User not found');
         throw new HttpException('User not found', 404);
       }
 
