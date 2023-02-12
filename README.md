@@ -29,6 +29,7 @@ GET /users/{id}
 PUT /users/{id}
 DELETE /users/{id}
 ```
+With the application running, access http://localhost:3000/api for more details.
 
 ## Project Purpose
 This project is meant to be used as a training tool to help developers understand the basic concepts of building a RESTful API using NestJS, TypeORM, SQLite3 and Jest. However, it should not be used as a base for a production project, as it does not include more advanced features such as password encryption, password rules validation, email validation, etc.
