@@ -21,6 +21,7 @@ database.sqlite
 /coverage
 /.nyc_output
 jest_html_reporters.html
+jest-html-reporters-attach
 
 # IDEs and editors
 /.idea
