@@ -43,7 +43,7 @@ describe('UsersService', () => {
   });
 
   describe('create', () => {
-    it('should call save() with userDto ', async () => {
+    it('should call save the user in the repository', async () => {
       const userDto = generateRandomUserDto();
       await service.create(userDto);
       expect(mockRepository.save).toHaveBeenCalledWith(userDto);
@@ -51,20 +51,20 @@ describe('UsersService', () => {
   });
 
   describe('findAll', () => {
-    it('should call find() ', async () => {
+    it('should use the repository to find all users', async () => {
       await service.findAll();
       expect(mockRepository.find).toHaveBeenCalled();
     });
   });
 
   describe('findOne', () => {
-    it('should call findOneOrFail() with id ', async () => {
+    it('should use the repository to find one user by id', async () => {
       const id = faker.datatype.number();
       await service.findOne(id);
       expect(mockRepository.findOneByOrFail).toHaveBeenCalledWith({ id });
     });
 
-    it('should throw an error if user is not found', async () => {
+    it('should throw a HttpException when the repository cannot find the user', async () => {
       const id = faker.datatype.number();
       mockRepository.findOneByOrFail.mockRejectedValueOnce(
         new EntityNotFoundError(User, id),
@@ -72,7 +72,7 @@ describe('UsersService', () => {
       await expect(service.findOne(id)).rejects.toThrow(HttpException);
     });
 
-    it('should throw the same error if it is not an EntityNotFoundError', async () => {
+    it('should throw the same error if the repository throws any error that is not an EntityNotFoundError', async () => {
       const id = faker.datatype.number();
       mockRepository.findOneByOrFail.mockRejectedValueOnce(new Error());
       await expect(service.findOne(id)).rejects.toThrow(Error);
@@ -80,7 +80,7 @@ describe('UsersService', () => {
   });
 
   describe('update', () => {
-    it('should throw an error if user is not found', async () => {
+    it('should throw a HttpException when the repository cannot find the user', async () => {
       const id = faker.datatype.number();
       const userDto = generateRandomUserDto();
       mockRepository.findOneByOrFail.mockRejectedValueOnce(
@@ -89,14 +89,14 @@ describe('UsersService', () => {
       await expect(service.update(id, userDto)).rejects.toThrow(HttpException);
     });
 
-    it('should throw the same error if it is not an EntityNotFoundError', async () => {
+    it('should throw the same error if the repository throws any error that is not an EntityNotFoundError', async () => {
       const id = faker.datatype.number();
       const userDto = generateRandomUserDto();
       mockRepository.findOneByOrFail.mockRejectedValueOnce(new Error());
       await expect(service.update(id, userDto)).rejects.toThrow(Error);
     });
 
-    it('should call update() with id and userDto ', async () => {
+    it('should use the repository to update the user', async () => {
       const id = faker.datatype.number();
       const userDto = generateRandomUserDto();
       await service.update(id, userDto);
@@ -105,7 +105,7 @@ describe('UsersService', () => {
   });
 
   describe('delete', () => {
-    it('should call delete() with id ', async () => {
+    it('should use the repository to delete the user for the given id', async () => {
       const id = faker.datatype.number();
       await service.delete(id);
       expect(mockRepository.delete).toHaveBeenCalledWith(id);
