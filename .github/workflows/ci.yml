@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run lint
+      run: npm run lint
+      env:
+        CI: true
+
+    - name: Run tests
+      run: npm run test:cov
+      env:
+        CI: true
+
+    - name: Check code coverage
+      run: |
+        echo "Checking code coverage..."
+        coverage=`cat coverage/lcov.info | grep -o 'Lines.*' | awk '{ print $3 }'`
+        coverage=${coverage%\%}
+        if (( $(echo "$coverage < 60" | bc -l) )); then
+          echo "Error: Code coverage is less than 60%. Actual coverage is $coverage%"
+          exit 1
+        fi
+        echo "Code coverage is sufficient ($coverage%)."
+
+    - name: Build
+      run: npm run build
